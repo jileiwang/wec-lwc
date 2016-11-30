@@ -1,0 +1,33 @@
+wangjilei@h205xia-1404:~/flashcache/wec$ grep -n 'inLRUQueue' *
+wec_cr.erl:173:      {Ret, Q1, HitItem} = wec_lru:inLRUQueue(Q, CachelineID),
+wec_lru.erl:2:-export([inLRUQueue/2, addtoLRUQueue/3, deleteFromLRUQueue/2, markLruQ/2, getSsdItemNumFromLru/1]).
+wec_lru.erl:9:inLRUQueue(Q, CachelineID) ->
+wangjilei@h205xia-1404:~/flashcache/wec$ grep -n 'deleteFromLRUQueue' *
+wec_lru.erl:2:-export([inLRUQueue/2, addtoLRUQueue/3, deleteFromLRUQueue/2, markLruQ/2, getSsdItemNumFromLru/1]).
+wec_lru.erl:32:deleteFromLRUQueue(Q, DelItem) ->
+wangjilei@h205xia-1404:~/flashcache/wec$ grep -n 'markLruQ' *
+wec_lru.erl:2:-export([inLRUQueue/2, addtoLRUQueue/3, deleteFromLRUQueue/2, markLruQ/2, getSsdItemNumFromLru/1]).
+wec_lru.erl:35:markLruQ(SsdQ, N) -> markLruQ(SsdQ, N, []).
+wec_lru.erl:37:markLruQ([], Left, SsdQ) -> {Left, lists:reverse(SsdQ)};
+wec_lru.erl:38:markLruQ(Q, 0, SsdQ) -> {0, lists:reverse(SsdQ) ++ Q};
+wec_lru.erl:39:markLruQ([H|T], Left, SsdQ) ->
+wec_lru.erl:43:      markLruQ(T, Left-1, [H1|SsdQ]);
+wec_lru.erl:45:      markLruQ(T, Left, [H|SsdQ])
+wec_se.erl:96:    lru -> wec_lru:markLruQ(SsdQ, N);
+wangjilei@h205xia-1404:~/flashcache/wec$ grep -n 'getSsdItemNumFromLru' *
+wec_lru.erl:2:-export([inLRUQueue/2, addtoLRUQueue/3, deleteFromLRUQueue/2, markLruQ/2, getSsdItemNumFromLru/1]).
+wec_lru.erl:48:getSsdItemNumFromLru(SsdQ) -> getSsdItemNumFromLru(SsdQ, 0).
+wec_lru.erl:50:getSsdItemNumFromLru([], N) -> N;
+wec_lru.erl:51:getSsdItemNumFromLru([H|T], N) ->
+wec_lru.erl:53:    ssd -> getSsdItemNumFromLru(T, N+1);
+wec_lru.erl:54:    _ -> getSsdItemNumFromLru(T, N)
+wec_se.erl:81:    lru -> wec_lru:getSsdItemNumFromLru(SsdQ);
+wangjilei@h205xia-1404:~/flashcache/wec$ grep -n 'addtoLRUQueue' *
+wec_cr.erl:204:    lru -> wec_lru:addtoLRUQueue(Q, Item, CacheCap);
+wec_cr.erl:222:    lru -> wec_lru:addtoLRUQueue(Q, Item1, CacheCap);
+wec_lru.erl:2:-export([inLRUQueue/2, addtoLRUQueue/3, deleteFromLRUQueue/2, markLruQ/2, getSsdItemNumFromLru/1]).
+wec_lru.erl:18:addtoLRUQueue(Q, Item, CacheCap) ->
+
+
+
+erl -noshell -s wec_fr start -s init stop
